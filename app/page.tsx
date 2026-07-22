@@ -324,7 +324,7 @@ export default function Home() {
       </header>
 
       <section className="hero">
-        <img className="hero-photo" src="/hero-lifestyle-v2.png" alt="长者在明亮居家空间使用帕不怕智能防抖勺" />
+        <img className="hero-photo" src="./hero-lifestyle-v2.png" alt="长者在明亮居家空间使用帕不怕智能防抖勺" />
         <div className="hero-overlay"></div><SignalCanvas />
         <div className="site-shell hero-layout">
           <div className="hero-copy reveal is-visible">
@@ -364,13 +364,13 @@ export default function Home() {
 
       <section className="product-section" id="product">
         <div className="site-shell section-head reveal"><div><span>02 / PRODUCT SYSTEM</span><h2>一个智能核心，<br />延展四种生活能力。</h2></div><p>智能感知手柄承担感知、计算与控制；标准化磁吸接口连接不同功能配件，让产品从单一器具进化为开放的生活辅助平台。</p></div>
-        <div className="product-hero reveal"><img src="/product-hero-v2.png" alt="帕不怕智能防抖手柄与餐具产品展示" /><div className="product-glow"></div><div className="product-pin pin-a"><i></i><span>智能感知手柄<small>多模态传感集成</small></span></div><div className="product-pin pin-b"><i></i><span>AI 计算单元<small>NPU 端侧实时推理</small></span></div><div className="product-pin pin-c"><i></i><span>模块化执行平台<small>ROS2 标准化接口</small></span></div><div className="product-caption"><span>ENGINEERED FOR EVERYDAY LIFE</span><strong>350g<small>以内重量控制目标</small></strong></div></div>
+        <div className="product-hero reveal"><img src="./product-hero-v2.png" alt="帕不怕智能防抖手柄与餐具产品展示" /><div className="product-glow"></div><div className="product-pin pin-a"><i></i><span>智能感知手柄<small>多模态传感集成</small></span></div><div className="product-pin pin-b"><i></i><span>AI 计算单元<small>NPU 端侧实时推理</small></span></div><div className="product-pin pin-c"><i></i><span>模块化执行平台<small>ROS2 标准化接口</small></span></div><div className="product-caption"><span>ENGINEERED FOR EVERYDAY LIFE</span><strong>350g<small>以内重量控制目标</small></strong></div></div>
         <div className="site-shell"><ProductMatrix /></div>
       </section>
 
       <section className="engineering-section">
         <div className="site-shell engineering-layout">
-          <div className="engineering-image reveal"><img src="/product-anatomy.jpg" alt="帕不怕智能手柄内部工程结构示意" /><span>ENGINEERING SAMPLE / INTERNAL ARCHITECTURE</span></div>
+          <div className="engineering-image reveal"><img src="./product-anatomy.jpg" alt="帕不怕智能手柄内部工程结构示意" /><span>ENGINEERING SAMPLE / INTERNAL ARCHITECTURE</span></div>
           <div className="engineering-copy reveal"><span className="section-kicker">每一个毫米，都服务于握持</span><h2>把复杂工程，<br />收进自然的一握。</h2><p>从肌电透层接触皮肤、主控板定位固定，到电池舱、LRA 马达与 Type-C 接口，内部结构围绕稳定、可维护与量产装配进行模块化设计。</p><div className="engineering-specs"><article><span>01</span><strong>可更换电池模组</strong><small>延长产品生命周期 2–3 年</small></article><article><span>02</span><strong>独立传感模组</strong><small>故障时无需更换整机</small></article><article><span>03</span><strong>国产 / 进口双备份</strong><small>增强关键器件供应韧性</small></article><article><span>04</span><strong>无工具快装结构</strong><small>兼顾试产与规模化装配</small></article></div></div>
         </div>
       </section>
@@ -380,7 +380,7 @@ export default function Home() {
           <div className="section-head light reveal"><div><span>03 / ACTIVE INTELLIGENCE</span><h2>不是等震颤发生，<br />而是提前理解它。</h2></div><p>HTPN 混合时序预测网络将多模态输入、特征提取、时序建模、注意力机制和多任务输出连接成端侧智能链路。</p></div>
           <TechnologyLab />
           <div className="pipeline reveal"><div className="pipeline-head"><span>END-TO-END PIPELINE</span><strong>7 层智能闭环</strong><small>从信号到服务的完整技术链路</small></div><div className="pipeline-track">{pipeline.map(([number, title, copy]) => <article key={number}><span>{number}</span><i></i><strong>{title}</strong><small>{copy}</small></article>)}</div></div>
-          <div className="model-deep-dive reveal"><div className="model-image"><img src="/model-architecture.png" alt="HTPN 震颤预判模型结构图" /></div><div className="model-copy"><span>HTPN / CNN + BiLSTM + ATTENTION</span><h3>94K 参数，完成三项任务</h3><p>多分支 CNN 提取 EMG、IMU、视觉与压力局部特征；BiLSTM 建模时序依赖；Attention 聚焦关键时间步，最终同步输出震颤类型、幅度与提前预警。</p><div className="model-tasks"><div><i>01</i><strong>4 类震颤分类</strong></div><div><i>02</i><strong>0–5 级幅度回归</strong></div><div><i>03</i><strong>150ms 提前预警</strong></div></div></div></div>
+          <div className="model-deep-dive reveal"><div className="model-image"><img src="./model-architecture.png" alt="HTPN 震颤预判模型结构图" /></div><div className="model-copy"><span>HTPN / CNN + BiLSTM + ATTENTION</span><h3>94K 参数，完成三项任务</h3><p>多分支 CNN 提取 EMG、IMU、视觉与压力局部特征；BiLSTM 建模时序依赖；Attention 聚焦关键时间步，最终同步输出震颤类型、幅度与提前预警。</p><div className="model-tasks"><div><i>01</i><strong>4 类震颤分类</strong></div><div><i>02</i><strong>0–5 级幅度回归</strong></div><div><i>03</i><strong>150ms 提前预警</strong></div></div></div></div>
           <PredictionConsole />
         </div>
       </section>
@@ -395,7 +395,7 @@ export default function Home() {
           <article><span>DATASET</span><strong>230<small>+h</small></strong><p>临床与社区患者数据</p></article>
         </div>
         <div className="site-shell evidence-layout">
-          <div className="trial-gallery reveal"><div className="trial-main"><img src="/field-trial-a.png" alt="项目团队在真实场景中开展产品试用" /><span>FIELD TEST · REAL FEEDBACK</span></div><div className="trial-small"><img src="/field-trial-b.jpg" alt="长者参与产品体验" /><div><strong>真实场景</strong><span>专科机构 · 社区 · 居家</span></div></div></div>
+          <div className="trial-gallery reveal"><div className="trial-main"><img src="./field-trial-a.png" alt="项目团队在真实场景中开展产品试用" /><span>FIELD TEST · REAL FEEDBACK</span></div><div className="trial-small"><img src="./field-trial-b.jpg" alt="长者参与产品体验" /><div><strong>真实场景</strong><span>专科机构 · 社区 · 居家</span></div></div></div>
           <div className="impact-panel reveal"><span>REAL-WORLD IMPACT</span><h3>从“能运行”到<br />“真正愿意使用”。</h3><div className="impact-list"><article><strong>+62%</strong><span>自主进食成功率</span></article><article><strong>4.8/5</strong><span>患者操作满意度</span></article><article><strong>-1.8h</strong><span>家庭日均照护时长</span></article><article><strong>-34%</strong><span>照护者焦虑指数</span></article></div><p>阶段性试点结果来自北京帕友关爱中心及社区家庭场景；后续仍将通过更大样本与规范化验证持续完善。</p></div>
         </div>
         <div className="site-shell validation-network reveal"><span>协作验证网络</span><div><strong>8<small>家</small></strong><p>帕金森专业机构</p></div><i></i><div><strong>32<small>家</small></strong><p>社区服务中心</p></div><i></i><div><strong>26<small>家</small></strong><p>养老驿站</p></div><i></i><div><strong>10<small>位</small></strong><p>跨学科专家评审</p></div></div>
