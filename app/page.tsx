@@ -15,8 +15,8 @@ const productScenes = [
     order: "01",
     label: "自主进食",
     title: "智能防抖勺",
-    copy: "以 90° 弯折餐具与三轴主动补偿稳定盛取、移动和入口动作；历史进食成功率持续参与策略微调，让辅助更贴合个人习惯。",
-    tags: ["三轴同步阻尼", "磁吸快拆", "触觉完成提示"],
+    copy: "优化设计 90° 弯折进食工具，将患者依靠小臂发力转换为依靠大臂摆动；系统分析多模态信号预判震颤，并结合历史进食成功率微调补偿策略，减少食物泼洒。",
+    tags: ["90° 弯折进食工具", "自适应补偿", "触觉反馈"],
     accent: "稳",
   },
   {
@@ -24,8 +24,8 @@ const productScenes = [
     order: "02",
     label: "从容穿衣",
     title: "AI 穿衣辅助器",
-    copy: "切换高精度控制模式，结合压力反馈动态调整辅助轨迹，面向扣纽扣、穿袖与整理衣物等精细生活任务。",
-    tags: ["离线语音唤醒", "高精度模式", "压力感知"],
+    copy: "面向扣纽扣、穿袖与整理衣物等精细动作，用户可通过离线语音指令切换至穿衣模式；系统调用高精度模式，并依据压力传感器反馈动态调整辅助轨迹。",
+    tags: ["离线语音激活", "高精度模式", "阻力反馈"],
     accent: "柔",
   },
   {
@@ -33,8 +33,8 @@ const productScenes = [
     order: "03",
     label: "肌肉舒缓",
     title: "按摩止颤模块",
-    copy: "在握持区域加入低频舒缓单元，面向掌心与前臂肌肉紧张，与机械补偿形成协同辅助，丰富日常照护体验。",
-    tags: ["低频舒缓", "握区集成", "多模式反馈"],
+    copy: "在手柄握把区域集成微型震动按摩单元，对掌心与前臂肌肉进行低频舒缓按摩，用于缓解肌肉僵硬、痉挛与过度紧张，并与机械防抖形成协同辅助。",
+    tags: ["微型震动单元", "低频舒缓", "机械防抖协同"],
     accent: "缓",
   },
   {
@@ -42,8 +42,8 @@ const productScenes = [
     order: "04",
     label: "安全步态",
     title: "视觉步态引导",
-    copy: "可伸缩激光投射提供稳定视觉参照，面向冻结步态、起步困难等场景探索辅助路径，让同一手柄覆盖更多生活时刻。",
-    tags: ["视觉参照", "可伸缩设计", "户外场景"],
+    copy: "手柄底部可伸缩式搭载激光投射装置，通过稳定直线激光提供视觉步态引导，面向冻结步态、起步困难与行走偏移等问题，并探索非进食状态下的辅助行走用途。",
+    tags: ["直线激光参照", "可伸缩设计", "辅助行走探索"],
     accent: "行",
   },
 ];
@@ -54,17 +54,17 @@ const techTabs = [
     index: "A",
     eyebrow: "PERCEPTION LAYER",
     title: "先理解动作意图",
-    copy: "HD-sEMG、9 轴 IMU、磁编码器与压力阵列同步工作，建立“人体意图—操作场景—交互状态”三位一体感知。",
-    list: ["1000Hz 肌电信号采集", "500Hz 姿态与位置采集", "时间戳对齐与实时降噪"],
-    metrics: [["4", "类输入模态"], ["<1ms", "时间对齐目标"]],
+    copy: "智能感知手柄集成 HD-sEMG、9 轴 IMU、磁编码器、压力与环境光传感器及双麦克风，形成“人体意图—操作场景—交互状态”三位一体感知体系。",
+    list: ["HD-sEMG 以 1000Hz 捕捉肌肉电活动", "IMU 与磁编码器以 500Hz 记录姿态、位置和角度", "多源信号统一时间戳、降噪并完成标准化"],
+    metrics: [["6", "组感知单元"], ["<1ms", "时间戳对齐"]],
   },
   {
     id: "predict",
     index: "B",
     eyebrow: "HTPN MODEL",
     title: "在震颤发生前预判",
-    copy: "自研 HTPN 混合时序网络融合 CNN、BiLSTM 与 Attention，在端侧进行类型分类、幅度回归与提前预警。",
-    list: ["CNN 并行局部特征提取", "BiLSTM 建模 200ms 时序", "Attention 聚焦关键时间步"],
+    copy: "自研混合时序预测模型 HTPN 采用 CNN + BiLSTM + Attention 三层架构，将局部特征提取、时序依赖建模与关键时间步加权连接起来。",
+    list: ["CNN 并行提取 EMG / IMU / 视觉 / 压力特征", "BiLSTM 双向建模 200ms 时序依赖", "多任务输出类型、幅度与 150ms 提前预警"],
     metrics: [["94K", "模型参数量"], ["150ms", "规划预判提前量"]],
   },
   {
@@ -72,8 +72,8 @@ const techTabs = [
     index: "C",
     eyebrow: "CONTROL LAYER",
     title: "把判断转成精准动作",
-    copy: "端侧控制器生成反向补偿指令，驱动三维防抖平台与双模执行器，在高动态与高精度任务之间实时切换。",
-    list: ["三轴独立控制", "无刷直流力矩电机", "LRA 触觉反馈"],
+    copy: "执行层将补偿参数、模式选择和时机判断转化为物理动作，由三轴独立控制的防抖云台和高转矩密度无刷直流力矩电机完成补偿。",
+    list: ["高动态模式面向进食的连续响应", "高精度模式面向穿衣与扣纽扣", "LRA 触觉反馈提示任务完成与模式切换"],
     metrics: [["8.5ms", "端侧推理延迟"], [">85%", "阶段性抑制水平"]],
   },
   {
@@ -81,9 +81,9 @@ const techTabs = [
     index: "D",
     eyebrow: "CLOUD–EDGE LOOP",
     title: "让系统持续贴合用户",
-    copy: "本地用户特征库保留个体差异，匿名化数据用于云端模型迭代，再把改进后的策略安全地反馈到设备与服务平台。",
-    list: ["端侧优先计算", "匿名脱敏聚合", "趋势报告与亲友守护"],
-    metrics: [["7", "层闭环架构"], ["24/7", "连续服务愿景"]],
+    copy: "端侧承担实时识别、预判与控制，云端承担长期学习和全局优化；经过匿名化、脱敏化处理的特征摘要与统计信息用于参数修正和模型更新。",
+    list: ["本地执行并保留用户震颤特征库", "云端汇总、集中优化与能力回传", "设备能力随长期反馈持续适配"],
+    metrics: [["4", "个连续环节"], ["端侧", "优先实时决策"]],
   },
 ];
 
@@ -93,15 +93,15 @@ const tiers = [
     type: "普通版",
     price: "¥699",
     badge: "普惠首选",
-    copy: "聚焦日常核心需求，用更可及的价格提供基础感知与主动防抖能力。",
-    specs: ["IMU + 标准 EMG", "基础情境感知", "进食核心模式", "模块化配件接口"],
+    copy: "性价比首选，面向预算敏感用户与初次体验者，满足进食、穿衣等日常核心需求。",
+    specs: ["IMU + 标准 EMG", "握力基础情境感知", "本地基础 AI 预判", "防抖勺与穿衣磁吸接口"],
   },
   {
     name: "睿智系列",
     type: "Pro 版",
     price: "¥1,999–2,999",
     badge: "全功能旗舰",
-    copy: "面向更高性能与个性化需求，扩展高密度感知、语音交互与云边协同。",
+    copy: "全功能旗舰，面向对性能、数据监测与个性化适配有更高要求的用户。",
     specs: ["高密度 EMG 阵列", "IMU + 磁编码器", "语音与多情境感知", "帕益助平台服务"],
   },
   {
@@ -109,7 +109,7 @@ const tiers = [
     type: "定制版",
     price: "专业评估",
     badge: "机构 / 特殊需求",
-    copy: "在 Pro 能力之上按个体症状和机构场景增配特殊传感器与功能模块。",
+    copy: "专属解决方案，面向特殊症状个体与专业机构，按需求进行参数调优、传感器增配与功能模块开发。",
     specs: ["个体化参数标定", "特殊传感器增配", "机构级服务支持", "开放式模块扩展"],
   },
 ];
@@ -125,12 +125,12 @@ const pipeline = [
 ];
 
 const serviceSteps = [
-  ["01", "咨询与初评", "了解震颤程度、生活场景与核心诉求，建立清晰的使用预期。"],
-  ["02", "设备选择与试用", "由专业人员匹配产品版本与配件，并在真实动作中体验辅助效果。"],
-  ["03", "培训与指导", "完成安全使用、充电维护、配件切换与个体化操作培训。"],
-  ["04", "配送与调试", "提供到家配送、组装调试与独立操作确认的一站式服务规划。"],
-  ["05", "持续随访", "交付后 7 天、30 天及季度回访，形成“反馈—处理—确认”闭环。"],
-  ["06", "维修与保养", "模块化更换降低维护成本；符合条件的返修场景规划提供备用设备。"],
+  ["01", "售前咨询", "解答产品信息、使用方法和注意事项，并为符合条件的用户提供 7 天试用申请。"],
+  ["02", "设备选择与试用", "结合患者的使用场景与操作需求，匹配产品版本、配件和体验方式。"],
+  ["03", "培训与指导", "提供正确、安全的设备使用培训，并补充个性化饮食与运动建议。"],
+  ["04", "配送与调试", "提供送货上门、组装调试与现场使用演示，确认用户能够独立操作。"],
+  ["05", "定期随访", "交付后 7 天、30 天及每季度回访，形成“反馈—处理—跟进—确认”记录。"],
+  ["06", "维修与保养", "提供维修、保养与配件更换；符合保修条件的返厂维修期间提供备用设备。"],
 ];
 
 const faqs = [
@@ -330,7 +330,7 @@ export default function Home() {
           <div className="hero-copy reveal is-visible">
             <div className="eyebrow"><span>AI × EMG × HUMAN DIGNITY</span><i></i><small>下一代震颤管理辅助系统</small></div>
             <h1>在震颤之前，<br /><em>把生活稳稳接住。</em></h1>
-            <p>从肌电前兆到三轴补偿，帕不怕将多模态感知、端侧智能与模块化产品生态融合，让进食、穿衣与更多生活动作重新自然发生。</p>
+            <p>项目将消费电子防抖技术、多模态生物传感与边缘人工智能进行融合，以智能感知手柄为核心，通过模块化配件拓展，面向进食、穿衣等高频生活场景提供主动辅助。</p>
             <div className="hero-actions"><a className="button-primary" href="#product">探索完整产品系统 <span>→</span></a><a className="button-ghost" href="#technology"><i>▶</i><span>了解 HTPN 模型<small>从感知到执行的 7 层闭环</small></span></a></div>
           </div>
           <div className="hero-console" aria-label="核心性能摘要">
@@ -348,7 +348,7 @@ export default function Home() {
       <section className="manifesto site-shell" id="vision">
         <div className="section-number reveal"><span>01</span><i></i><small>WHY IT MATTERS</small></div>
         <div className="manifesto-title reveal"><span className="section-kicker">从真实生活出发</span><h2>我们解决的不是<br />一把勺子的抖动，<br />而是一个人对<strong>日常的掌控感。</strong></h2></div>
-        <div className="manifesto-copy reveal"><p>中国帕金森患者总数超过 500 万。对许多人而言，进食、穿衣这些普通动作意味着尊严、自信，也意味着一个家庭每天投入的照护时间。</p><blockquote>“以科技守护日常尊严，让每一次进餐都成为安心的体验。”</blockquote><span>北京帕护智能科技有限公司 · 核心理念</span></div>
+        <div className="manifesto-copy reveal"><p>中国帕金森患者总数超过 500 万。对许多患者而言，手部震颤让独立进食、穿衣等基本生活动作变得困难，也给家庭带来持续的照护压力。</p><blockquote>“实现价值，有帕不怕。”</blockquote><span>北京帕护智能科技有限公司 · 服务理念</span></div>
       </section>
 
       <section className="problem-section">
@@ -363,7 +363,7 @@ export default function Home() {
       </section>
 
       <section className="product-section" id="product">
-        <div className="site-shell section-head reveal"><div><span>02 / PRODUCT SYSTEM</span><h2>一个智能核心，<br />延展四种生活能力。</h2></div><p>智能感知手柄承担感知、计算与控制；标准化磁吸接口连接不同功能配件，让产品从单一器具进化为开放的生活辅助平台。</p></div>
+        <div className="site-shell section-head reveal"><div><span>02 / PRODUCT SYSTEM</span><h2>以智能手柄为核心，<br />延展多场景生活辅助。</h2></div><p>产品由智能感知手柄、AI 计算单元和模块化执行平台构成；智能磁吸底座与 ROS2 标准化机电气接口连接不同功能配件，使产品从单一器具延展为多场景生活辅助平台。</p></div>
         <div className="product-hero reveal"><img src="./product-hero-v2.png" alt="帕不怕智能防抖手柄与餐具产品展示" /><div className="product-glow"></div><div className="product-pin pin-a"><i></i><span>智能感知手柄<small>多模态传感集成</small></span></div><div className="product-pin pin-b"><i></i><span>AI 计算单元<small>NPU 端侧实时推理</small></span></div><div className="product-pin pin-c"><i></i><span>模块化执行平台<small>ROS2 标准化接口</small></span></div><div className="product-caption"><span>ENGINEERED FOR EVERYDAY LIFE</span><strong>350g<small>以内重量控制目标</small></strong></div></div>
         <div className="site-shell"><ProductMatrix /></div>
       </section>
@@ -371,34 +371,34 @@ export default function Home() {
       <section className="engineering-section">
         <div className="site-shell engineering-layout">
           <div className="engineering-image reveal"><img src="./product-anatomy.jpg" alt="帕不怕智能手柄内部工程结构示意" /><span>ENGINEERING SAMPLE / INTERNAL ARCHITECTURE</span></div>
-          <div className="engineering-copy reveal"><span className="section-kicker">每一个毫米，都服务于握持</span><h2>把复杂工程，<br />收进自然的一握。</h2><p>从肌电透层接触皮肤、主控板定位固定，到电池舱、LRA 马达与 Type-C 接口，内部结构围绕稳定、可维护与量产装配进行模块化设计。</p><div className="engineering-specs"><article><span>01</span><strong>可更换电池模组</strong><small>延长产品生命周期 2–3 年</small></article><article><span>02</span><strong>独立传感模组</strong><small>故障时无需更换整机</small></article><article><span>03</span><strong>国产 / 进口双备份</strong><small>增强关键器件供应韧性</small></article><article><span>04</span><strong>无工具快装结构</strong><small>兼顾试产与规模化装配</small></article></div></div>
+          <div className="engineering-copy reveal"><span className="section-kicker">模块化与可维护性设计</span><h2>兼顾长期握持，<br />也兼顾长期使用。</h2><p>手柄内部集成传感、主控、供电、通信与触觉反馈单元。电池模组采用标准化、无工具快拆设计；IMU 与 EMG 等核心传感单元独立封装，使局部故障不必更换整个手柄。</p><div className="engineering-specs"><article><span>01</span><strong>可更换电池模组</strong><small>计划将产品寿命延长 2–3 年</small></article><article><span>02</span><strong>独立传感模组</strong><small>故障时仅更换对应模组</small></article><article><span>03</span><strong>多性能材质组合</strong><small>兼顾舒适、安全、强度与耐磨</small></article><article><span>04</span><strong>无工具快拆结构</strong><small>降低长期使用与维护成本</small></article></div></div>
         </div>
       </section>
 
       <section className="technology-section" id="technology"><SignalCanvas />
         <div className="site-shell">
-          <div className="section-head light reveal"><div><span>03 / ACTIVE INTELLIGENCE</span><h2>不是等震颤发生，<br />而是提前理解它。</h2></div><p>HTPN 混合时序预测网络将多模态输入、特征提取、时序建模、注意力机制和多任务输出连接成端侧智能链路。</p></div>
+          <div className="section-head light reveal"><div><span>03 / ACTIVE INTELLIGENCE</span><h2>智能感知，自主决策，<br />精准执行，持续进化。</h2></div><p>计划书以“智能感知—自主决策—精准执行—持续进化”定义完整技术闭环。HTPN 模型负责连接多模态输入、特征提取、时序建模、注意力机制与多任务输出。</p></div>
           <TechnologyLab />
           <div className="pipeline reveal"><div className="pipeline-head"><span>END-TO-END PIPELINE</span><strong>7 层智能闭环</strong><small>从信号到服务的完整技术链路</small></div><div className="pipeline-track">{pipeline.map(([number, title, copy]) => <article key={number}><span>{number}</span><i></i><strong>{title}</strong><small>{copy}</small></article>)}</div></div>
-          <div className="model-deep-dive reveal"><div className="model-image"><img src="./model-architecture.png" alt="HTPN 震颤预判模型结构图" /></div><div className="model-copy"><span>HTPN / CNN + BiLSTM + ATTENTION</span><h3>94K 参数，完成三项任务</h3><p>多分支 CNN 提取 EMG、IMU、视觉与压力局部特征；BiLSTM 建模时序依赖；Attention 聚焦关键时间步，最终同步输出震颤类型、幅度与提前预警。</p><div className="model-tasks"><div><i>01</i><strong>4 类震颤分类</strong></div><div><i>02</i><strong>0–5 级幅度回归</strong></div><div><i>03</i><strong>150ms 提前预警</strong></div></div></div></div>
+          <div className="model-deep-dive reveal"><div className="model-image"><img src="./model-architecture.png" alt="HTPN 震颤预判模型结构图" /></div><div className="model-copy"><span>HTPN / CNN + BiLSTM + ATTENTION</span><h3>94K 参数，面向三项预测任务</h3><p>按照计划书模型架构，CNN 分支并行提取 EMG、IMU、视觉与压力四模态局部特征，BiLSTM 双向建模 200ms 时序依赖，Attention 动态分配权重并聚焦关键时间步。</p><div className="model-tasks"><div><i>01</i><strong>震颤类型分类（4 类）</strong></div><div><i>02</i><strong>幅度回归（0–5 级）</strong></div><div><i>03</i><strong>提前预判（150ms）</strong></div></div></div></div>
           <PredictionConsole />
         </div>
       </section>
 
       <section className="research-section" id="research">
-        <div className="site-shell section-head reveal"><div><span>04 / RESEARCH & EVIDENCE</span><h2>让每一个技术判断，<br />经得起数据追问。</h2></div><p>项目从需求、样机、模型到真实场景建立分层验证体系，持续记录性能、体验与照护价值。</p></div>
+        <div className="site-shell section-head reveal"><div><span>04 / RESEARCH & EVIDENCE</span><h2>计划书中的阶段性测试，<br />按条件完整呈现。</h2></div><p>以下数据分别来自模型测试、合作机构数据与真实场景试点。页面保留样本、周期和使用场景等限定条件，不将阶段性结果表述为最终医疗结论。</p></div>
         <div className="site-shell research-grid reveal">
           <article className="research-score"><span>TEST ACCURACY</span><strong>92.3<small>%</small></strong><p>50 名患者、14 天监测条件下的阶段性测试集准确率</p><div><i style={{ width: "92.3%" }}></i></div></article>
           <article><span>PRECISION</span><strong>91.7<small>%</small></strong><p>宏平均精确率</p></article>
           <article><span>RECALL</span><strong>92.1<small>%</small></strong><p>宏平均召回率</p></article>
           <article><span>EVENT MISS RATE</span><strong>4.1<small>%</small></strong><p>事件级漏报率</p></article>
-          <article><span>DATASET</span><strong>230<small>+h</small></strong><p>临床与社区患者数据</p></article>
+          <article><span>CLINICAL DATA</span><strong>150<small>+h</small></strong><p>30 名患者、H&amp;Y 1–3 级受控实验数据</p></article>
         </div>
         <div className="site-shell evidence-layout">
-          <div className="trial-gallery reveal"><div className="trial-main"><img src="./field-trial-a.png" alt="项目团队在真实场景中开展产品试用" /><span>FIELD TEST · REAL FEEDBACK</span></div><div className="trial-small"><img src="./field-trial-b.jpg" alt="长者参与产品体验" /><div><strong>真实场景</strong><span>专科机构 · 社区 · 居家</span></div></div></div>
-          <div className="impact-panel reveal"><span>REAL-WORLD IMPACT</span><h3>从“能运行”到<br />“真正愿意使用”。</h3><div className="impact-list"><article><strong>+62%</strong><span>自主进食成功率</span></article><article><strong>4.8/5</strong><span>患者操作满意度</span></article><article><strong>-1.8h</strong><span>家庭日均照护时长</span></article><article><strong>-34%</strong><span>照护者焦虑指数</span></article></div><p>阶段性试点结果来自北京帕友关爱中心及社区家庭场景；后续仍将通过更大样本与规范化验证持续完善。</p></div>
+          <div className="trial-gallery reveal"><div className="trial-main"><img src="./field-trial-a-restored.png" alt="项目团队在真实场景中开展产品试用，基于计划书原照片高清修复重绘" /><span>FIELD TEST · 原照片高清修复重绘</span></div><div className="trial-small"><img src="./field-trial-b-restored.png" alt="长者参与产品体验，基于计划书原照片高清修复重绘" /><div><strong>真实场景</strong><span>专科机构 · 社区 · 居家</span></div></div></div>
+          <div className="impact-panel reveal"><span>REAL-WORLD IMPACT</span><h3>从工程样机，<br />走进真实使用场景。</h3><div className="impact-list"><article><strong>+62%</strong><span>自主进食成功率</span></article><article><strong>4.8/5</strong><span>患者操作满意度</span></article><article><strong>-1.8h</strong><span>家庭日均照护时长</span></article><article><strong>-34%</strong><span>照护者焦虑指数</span></article></div><p>计划书记载的试点来自北京帕友关爱中心及社区家庭场景，属于项目阶段性成果；后续仍需通过更大样本、规范化测试与合规验证持续完善。</p></div>
         </div>
-        <div className="site-shell validation-network reveal"><span>协作验证网络</span><div><strong>8<small>家</small></strong><p>帕金森专业机构</p></div><i></i><div><strong>32<small>家</small></strong><p>社区服务中心</p></div><i></i><div><strong>26<small>家</small></strong><p>养老驿站</p></div><i></i><div><strong>10<small>位</small></strong><p>跨学科专家评审</p></div></div>
+        <div className="site-shell validation-network reveal"><span>协作验证网络</span><div><strong>8<small>家</small></strong><p>帕金森专业机构</p></div><i></i><div><strong>32<small>家</small></strong><p>社区服务中心</p></div><i></i><div><strong>26<small>家</small></strong><p>养老驿站</p></div><i></i><div><strong>18<small>份</small></strong><p>合作意向书</p></div></div>
       </section>
 
       <section className="versions-section">
@@ -408,7 +408,7 @@ export default function Home() {
 
       <section className="service-section" id="service">
         <div className="site-shell service-layout">
-          <div className="service-intro reveal"><span>06 / CARE CONTINUUM</span><h2>交付一件产品，<br />更要陪伴长期使用。</h2><p>服务从咨询、试用到培训、随访与维修，连接客户信息系统、亲友云守护与患者社群，形成产品之外的持续支持。</p><div className="service-promise"><strong>7 × 24</strong><span>规划客服支持体系<small>以正式运营标准为准</small></span></div></div>
+          <div className="service-intro reveal"><span>06 / CARE CONTINUUM</span><h2>从售前咨询，<br />延伸到随访与维护。</h2><p>计划书服务体系覆盖咨询、试用、配送调试、使用培训、定期随访、维修保养与满意度调查，并通过客户信息系统沉淀反馈，持续优化产品与服务。</p><div className="service-promise"><strong>7 × 24</strong><span>计划书规划客服体系<small>以正式运营能力与发布标准为准</small></span></div></div>
           <div className="service-steps reveal">{serviceSteps.map(([number, title, copy]) => <article key={number}><span>{number}</span><div><strong>{title}</strong><p>{copy}</p></div><i>↗</i></article>)}</div>
         </div>
         <div className="site-shell platform-cards reveal"><article><span>FOR PATIENTS</span><strong>健康趋势</strong><p>震颤频率、使用行为与长期变化，以更清晰的方式被理解。</p></article><article><span>FOR FAMILIES</span><strong>亲友云守护</strong><p>在尊重隐私的前提下，为家庭提供连续的使用与生活参考。</p></article><article><span>FOR PROFESSIONALS</span><strong>远程服务参考</strong><p>为专业人员提供更连续的数据线索与随访依据。</p></article><article><span>FOR COMMUNITY</span><strong>病友交流</strong><p>让经验、鼓励与社会支持成为产品服务的一部分。</p></article></div>
@@ -431,7 +431,7 @@ export default function Home() {
 
       <section className="roadmap-section">
         <div className="site-shell section-head reveal"><div><span>09 / FROM PROTOTYPE TO SCALE</span><h2>每一次迭代，<br />都来自真实反馈。</h2></div><p>从养老院和社区的痛点观察，到三轴原型、工程样机、临床闭环和量产准备，项目持续把反馈转化为结构与算法改进。</p></div>
-        <div className="site-shell roadmap reveal"><article><span>2024.09—12</span><i></i><strong>痛点验证</strong><p>问卷、访谈与场景观察，形成超过 200 页访谈记录。</p></article><article><span>2024.11—2025.05</span><i></i><strong>技术原型</strong><p>完成第一代三轴防抖原型，验证基础技术路径。</p></article><article><span>2025.06—08</span><i></i><strong>临床反馈</strong><p>围绕响应延迟、手柄防滑与人体工学进行关键修正。</p></article><article className="active"><span>NOW</span><i></i><strong>工程样机</strong><p>完成多模态识别、主动补偿与 5 次重大版本迭代。</p></article><article><span>NEXT</span><i></i><strong>小批量试产</strong><p>推进临床闭环、合规测试与 1,000 台级工艺验证。</p></article><article><span>FUTURE</span><i></i><strong>智能照护生态</strong><p>扩展轻量设备、健康平台与更广泛的行动障碍场景。</p></article></div>
+        <div className="site-shell roadmap reveal"><article><span>2024.09—12</span><i></i><strong>痛点验证</strong><p>深入养老院与社区开展问卷和访谈，形成超过 200 页访谈记录。</p></article><article><span>2024.11—2025.05</span><i></i><strong>技术原型</strong><p>利用开源硬件搭建第一代三轴防抖原型，验证基础技术路径。</p></article><article><span>2025.06—08</span><i></i><strong>临床反馈</strong><p>针对“电机响应有延迟”“手柄太滑”等反馈优化算法与工业设计。</p></article><article className="active"><span>2025.08—10</span><i></i><strong>最小可行产品</strong><p>集成 AI 预判算法，完成首代可量产工程样机 V1.0。</p></article><article><span>2025.11—今</span><i></i><strong>小范围试用</strong><p>与社区开展免费试用，并依据反馈持续迭代磁吸接口可靠性。</p></article><article><span>产业化规划</span><i></i><strong>认证与量产准备</strong><p>推进质量检测、合规认证、产品标准化与首批小批量量产准备。</p></article></div>
       </section>
 
       <section className="about-section" id="about">
