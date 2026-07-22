@@ -2,25 +2,25 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://parkinfearless-ai-care.dingrui1.chatgpt.site"),
-  title: "帕不怕 ParkinFearless｜AI 主动预判型智能防抖辅具",
-  description: "以多模态感知、AI-EMG 主动预判与三轴精准补偿，帮助帕金森患者更从容地完成进食与日常生活动作。",
+  metadataBase: new URL("https://marble414.github.io/parkinfearless-ai-care/"),
+  title: "帕不怕 ParkinFearless｜多场景智能生活辅助系统",
+  description: "以智能感知手柄为核心，融合多模态生物传感、边缘人工智能与模块化执行平台，面向帕金森患者的日常生活辅助系统。",
   icons: {
-    icon: "/brand-mark.jpeg",
-    shortcut: "/brand-mark.jpeg",
+    icon: "https://marble414.github.io/parkinfearless-ai-care/brand-mark.jpeg",
+    shortcut: "https://marble414.github.io/parkinfearless-ai-care/brand-mark.jpeg",
   },
   openGraph: {
-    title: "帕不怕｜让自主生活，先于震颤发生。",
-    description: "AI–EMG 主动预判型智能防抖辅具",
+    title: "帕不怕｜在震颤之前，把生活稳稳接住。",
+    description: "多模态感知 × AI 主动预判 × 模块化生活辅助",
     type: "website",
     locale: "zh_CN",
-    images: [{ url: "/og.png", width: 1728, height: 974, alt: "帕不怕智能防抖辅具" }],
+    images: [{ url: "https://marble414.github.io/parkinfearless-ai-care/og.jpg", width: 1200, height: 675, alt: "帕不怕多场景智能生活辅助系统" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "帕不怕｜让自主生活，先于震颤发生。",
-    description: "AI–EMG 主动预判型智能防抖辅具",
-    images: ["/og.png"],
+    title: "帕不怕｜在震颤之前，把生活稳稳接住。",
+    description: "多模态感知 × AI 主动预判 × 模块化生活辅助",
+    images: ["https://marble414.github.io/parkinfearless-ai-care/og.jpg"],
   },
 };
 
