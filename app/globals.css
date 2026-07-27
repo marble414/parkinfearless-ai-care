@@ -648,12 +648,12 @@ p, h1, h2, h3, h4, blockquote, figure { margin-top: 0; }
 .co-create > div span { font-size: 10px; letter-spacing: .15em; }
 .co-create h3 { margin: 0; font-size: 30px; line-height: 1.35; }
 .co-create > p { margin: 0; color: rgba(255,255,255,.65); font-size: 13px; line-height: 1.8; }
-.network-band { min-height: 170px; margin-top: 70px; padding: 24px 0; display: flex; align-items: center; justify-content: space-between; border-block: 1px solid rgba(255,255,255,.25); }
-.network-band > span { font-size: 12px; letter-spacing: .12em; }
+.network-band { min-height: 190px; margin-top: 70px; padding: 30px 0; display: flex; align-items: center; justify-content: space-between; border-block: 1px solid rgba(255,255,255,.25); }
+.network-band > span { font-size: 13px; letter-spacing: .12em; }
 .network-band article { text-align: center; }
-.network-band article strong { font-size: 31px; font-weight: 420; }
-.network-band article strong small { margin-left: 3px; font-size: 12px; }
-.network-band article p { margin: 3px 0 0; color: rgba(255,255,255,.6); font-size: 11px; }
+.network-band article strong { font-size: 38px; font-weight: 420; }
+.network-band article strong small { margin-left: 3px; font-size: 13px; }
+.network-band article p { margin: 5px 0 0; color: rgba(255,255,255,.68); font-size: 13px; }
 .network-band > i { width: 1px; height: 48px; background: rgba(255,255,255,.22); }
 
 .faq-section { padding: 125px 0; background: var(--paper); }
@@ -835,7 +835,7 @@ footer { color: white; background: #1b1411; }
   .needs-grid article > strong { font-size: 62px; }
   .market-gap { min-height: auto; margin-top: 70px; border-radius: var(--radius-lg); }
   .market-gap-copy { padding: 44px 24px 32px; }
-  .market-gap h3 { font-size: 34px; }
+  .market-gap h3 { font-size: clamp(27px,7.4vw,30px); line-height: 1.25; letter-spacing: -.06em; }
   .comparison-cards { padding: 20px; }
   .comparison-cards article { padding: 20px; }
   .comparison-cards strong { font-size: 23px; }
@@ -958,6 +958,7 @@ footer { color: white; background: #1b1411; }
   .co-create { padding: 30px 24px; }
   .network-band { display: grid; grid-template-columns: repeat(2,1fr); }
   .network-band > span { grid-column: 1/-1; }
+  .network-band article strong { font-size: 34px; }
   .network-band > i { display: none; }
   .faq-section { padding: 85px 0; }
   .faq-title h2 { font-size: 43px; }
