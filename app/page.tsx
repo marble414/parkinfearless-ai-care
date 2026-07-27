@@ -60,6 +60,14 @@ const proofStats = [
   { value: "18", label: "份合作意向", note: "14 份正式文件 · 4 份推进中" },
 ];
 
+type FontSizeMode = "standard" | "large" | "extra-large";
+
+const fontSizeOptions: Array<{ value: FontSizeMode; label: string; shortLabel: string; scale: number }> = [
+  { value: "standard", label: "标准字号", shortLabel: "A", scale: 1 },
+  { value: "large", label: "大号字体", shortLabel: "A+", scale: 1.1 },
+  { value: "extra-large", label: "特大号字体", shortLabel: "A++", scale: 1.2 },
+];
+
 const needs = [
   { value: 92, title: "稳定进食", copy: "患者将“进食时餐具稳定控制”列为首要需求。", icon: UtensilsCrossed },
   { value: 87, title: "穿衣辅助", copy: "中重度患者强烈需要穿衣动作辅助。", icon: Shirt },
@@ -637,9 +645,63 @@ function Faq() {
 
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [fontSizeMode, setFontSizeMode] = useState<FontSizeMode>("large");
+  const [fontSizeReady, setFontSizeReady] = useState(false);
   const progressRef = useRef<HTMLDivElement | null>(null);
   const menuButtonRef = useRef<HTMLButtonElement | null>(null);
   const firstNavLinkRef = useRef<HTMLAnchorElement | null>(null);
+
+  useEffect(() => {
+    const savedMode = window.localStorage.getItem("parkinfearless-font-size");
+    if (fontSizeOptions.some((option) => option.value === savedMode)) setFontSizeMode(savedMode as FontSizeMode);
+    setFontSizeReady(true);
+  }, []);
+
+  useEffect(() => {
+    if (!fontSizeReady) return;
+    const scale = fontSizeOptions.find((option) => option.value === fontSizeMode)?.scale ?? 1;
+    const selector = [
+      ".main-nav a",
+      ".header-cta",
+      "main p",
+      "main li",
+      "main dd",
+      "main dt",
+      "main small",
+      "main figcaption",
+      "main button",
+      "main .network-band > span",
+      "footer p",
+      "footer a",
+      "footer small",
+      "footer span",
+    ].join(",");
+    let resizeFrame = 0;
+
+    const applyFontScale = () => {
+      const elements = Array.from(document.querySelectorAll<HTMLElement>(selector));
+      elements.forEach((element) => element.style.removeProperty("font-size"));
+      if (scale === 1) return;
+      elements.forEach((element) => {
+        const baseSize = Number.parseFloat(window.getComputedStyle(element).fontSize);
+        if (Number.isFinite(baseSize)) element.style.setProperty("font-size", `${(baseSize * scale).toFixed(2)}px`, "important");
+      });
+    };
+    const handleResize = () => {
+      window.cancelAnimationFrame(resizeFrame);
+      resizeFrame = window.requestAnimationFrame(applyFontScale);
+    };
+
+    document.documentElement.dataset.fontSize = fontSizeMode;
+    window.localStorage.setItem("parkinfearless-font-size", fontSizeMode);
+    applyFontScale();
+    window.addEventListener("resize", handleResize, { passive: true });
+    return () => {
+      window.cancelAnimationFrame(resizeFrame);
+      window.removeEventListener("resize", handleResize);
+      document.querySelectorAll<HTMLElement>(selector).forEach((element) => element.style.removeProperty("font-size"));
+    };
+  }, [fontSizeMode, fontSizeReady]);
 
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
@@ -685,6 +747,22 @@ export default function Home() {
           <nav className={cx("main-nav", menuOpen && "open")} id="main-navigation" aria-label="主导航">
             <a ref={firstNavLinkRef} href="#need" onClick={closeMenu}>需求价值</a><a href="#product" onClick={closeMenu}>产品系统</a><a href="#technology" onClick={closeMenu}>核心技术</a><a href="#research" onClick={closeMenu}>验证研究</a><a href="#service" onClick={closeMenu}>服务与产业化</a><a href="#about" onClick={closeMenu}>品牌合作</a>
           </nav>
+          <div className="font-size-control" role="group" aria-label="调整网页字号">
+            <span>字号</span>
+            {fontSizeOptions.map((option) => (
+              <button
+                key={option.value}
+                type="button"
+                className={fontSizeMode === option.value ? "active" : ""}
+                aria-label={option.label}
+                aria-pressed={fontSizeMode === option.value}
+                title={option.label}
+                onClick={() => setFontSizeMode(option.value)}
+              >
+                {option.shortLabel}
+              </button>
+            ))}
+          </div>
           <a className="header-cta" href="#cooperate">合作咨询 <ArrowUpRight size={15} /></a>
           <button ref={menuButtonRef} className="menu-button" aria-label={menuOpen ? "关闭导航" : "打开导航"} aria-controls="main-navigation" aria-expanded={menuOpen} onClick={() => setMenuOpen(!menuOpen)}>{menuOpen ? <X /> : <Menu />}</button>
         </div>
