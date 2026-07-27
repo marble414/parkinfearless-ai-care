@@ -242,6 +242,13 @@ const platformFeatures = [
   { title: "病友交流", copy: "让经验、鼓励与社会支持成为服务的一部分。", icon: Sparkles },
 ];
 
+const dashboardModes = [
+  { id: "overview", label: "健康概览", title: "让长期变化，更容易被理解。", icon: BarChart3 },
+  { id: "trend", label: "震颤趋势", title: "把连续记录，转化为清晰趋势。", icon: Activity },
+  { id: "family", label: "亲友守护", title: "在尊重隐私的前提下，连接家庭支持。", icon: HeartHandshake },
+  { id: "service", label: "远程服务", title: "为随访与服务，提供连续参考。", icon: Cloud },
+];
+
 const serviceSteps = [
   ["01", "售前咨询", "解答产品信息、使用方法和注意事项，并为符合条件的用户提供 7 天试用申请。"],
   ["02", "设备选择与试用", "结合使用场景与操作需求，匹配产品版本、配件和体验方式。"],
@@ -455,7 +462,16 @@ function EngineeringViewer() {
   return (
     <div className="engineering-viewer reveal">
       <div className="engineering-media">
-        <img src="./smart-handle-cutaway.webp" alt="智能感知手柄侧视与俯视高清剖视结构" loading="lazy" width="1672" height="939" />
+        <div className="engineering-image-stack">
+          <figure>
+            <img src="./smart-handle-side.jpg" alt="智能感知手柄侧视高清剖面结构" loading="lazy" width="1672" height="570" />
+            <figcaption><span>01</span> 侧视剖面</figcaption>
+          </figure>
+          <figure>
+            <img src="./smart-handle-top.jpg" alt="智能感知手柄俯视高清剖面结构" loading="lazy" width="1672" height="391" />
+            <figcaption><span>02</span> 俯视剖面</figcaption>
+          </figure>
+        </div>
         <span className="source-badge"><ScanLine size={15} /> SMART HANDLE / CUTAWAY VIEW</span>
       </div>
       <div className="engineering-copy">
@@ -551,15 +567,47 @@ function CompensationDemo() {
 }
 
 function HealthDashboard() {
+  const [active, setActive] = useState(0);
+  const refs = useRef<Array<HTMLButtonElement | null>>([]);
+  const mode = dashboardModes[active];
+
+  const move = (direction: number) => {
+    const next = (active + direction + dashboardModes.length) % dashboardModes.length;
+    setActive(next);
+    refs.current[next]?.focus();
+  };
+
   return (
     <div className="dashboard reveal">
       <aside className="dashboard-sidebar">
-        <div className="dashboard-brand"><span className="brand-symbol"><i /></span><strong>帕益助</strong></div>
-        <div className="dashboard-feature-list" aria-label="平台规划功能"><span className="active"><BarChart3 />健康概览</span><span><Activity />震颤趋势</span><span><HeartHandshake />亲友守护</span><span><Cloud />远程服务</span></div>
+        <div className="dashboard-brand"><img className="brand-logo" src="./brand-mark.jpeg" alt="" width="158" height="151" /><strong>帕益助</strong></div>
+        <div className="dashboard-feature-list" role="tablist" aria-label="平台规划功能">
+          {dashboardModes.map((item, index) => {
+            const Icon = item.icon;
+            return (
+              <button
+                key={item.id}
+                ref={(node) => { refs.current[index] = node; }}
+                id={`dashboard-tab-${item.id}`}
+                role="tab"
+                aria-selected={active === index}
+                aria-controls={`dashboard-panel-${item.id}`}
+                tabIndex={active === index ? 0 : -1}
+                onClick={() => setActive(index)}
+                onKeyDown={(event) => {
+                  if (event.key === "ArrowRight" || event.key === "ArrowDown") { event.preventDefault(); move(1); }
+                  if (event.key === "ArrowLeft" || event.key === "ArrowUp") { event.preventDefault(); move(-1); }
+                }}
+              >
+                <Icon />{item.label}
+              </button>
+            );
+          })}
+        </div>
         <small>PLANNED SERVICE PLATFORM</small>
       </aside>
-      <section className="dashboard-main" id="dashboard">
-        <header><div><span>智能健康数据平台</span><h3>让长期变化，更容易被理解。</h3></div><small className="dashboard-note"><ShieldCheck /> 平台功能规划 · 无患者数据</small></header>
+      <section className="dashboard-main" id={`dashboard-panel-${mode.id}`} role="tabpanel" aria-labelledby={`dashboard-tab-${mode.id}`}>
+        <header><div><span>智能健康数据平台 · {mode.label}</span><h3 aria-live="polite">{mode.title}</h3></div><small className="dashboard-note"><ShieldCheck /> 平台功能规划 · 无患者数据</small></header>
         <div className="dashboard-kpis"><article><span>震颤趋势</span><strong>连续<small>记录</small></strong><i>长期变化可视化</i></article><article><span>使用行为</span><strong>场景<small>汇总</small></strong><i>频次与模块激活</i></article><article><span>数据路径</span><strong className="online">端侧优先</strong><i>匿名脱敏协同</i></article></div>
         <div className="dashboard-grid">
           <article className="trend-card"><div><span>震颤变化趋势</span><small>功能界面示意</small></div><div className="trend-flow" aria-label="从设备记录到趋势呈现的功能路径"><span><Activity /><strong>设备记录</strong></span><ArrowRight /><span><Database /><strong>行为汇总</strong></span><ArrowRight /><span><BarChart3 /><strong>趋势呈现</strong></span></div><p>将设备使用、震颤变化与行为记录转化为长期趋势，为患者、家属和专业人员提供连续参考。</p></article>
@@ -633,7 +681,7 @@ export default function Home() {
       <div className="scroll-progress" ref={progressRef} />
       <header className="site-header" id="top">
         <div className="shell header-inner">
-          <a className="brand" href="#top" aria-label="帕不怕首页"><span className="brand-symbol"><i /></span><span><strong>帕不怕</strong><small>ParkinFearless</small></span></a>
+          <a className="brand" href="#top" aria-label="帕不怕首页"><img className="brand-logo" src="./brand-mark.jpeg" alt="" width="158" height="151" /><span><strong>帕不怕</strong><small>ParkinFearless</small></span></a>
           <nav className={cx("main-nav", menuOpen && "open")} id="main-navigation" aria-label="主导航">
             <a ref={firstNavLinkRef} href="#need" onClick={closeMenu}>需求价值</a><a href="#product" onClick={closeMenu}>产品系统</a><a href="#technology" onClick={closeMenu}>核心技术</a><a href="#research" onClick={closeMenu}>验证研究</a><a href="#service" onClick={closeMenu}>服务与产业化</a><a href="#about" onClick={closeMenu}>品牌合作</a>
           </nav>
@@ -719,17 +767,17 @@ export default function Home() {
           </div>
           <div className="trial-section">
             <div className="shell trial-layout">
-              <div className="trial-gallery reveal"><figure className="trial-main"><img src="./field-trial-a-restored.webp" alt="团队在真实场景中开展产品试用" width="996" height="1667" loading="lazy" /><figcaption>专科机构 · 产品体验与结构反馈</figcaption></figure><figure><img src="./field-trial-b-restored.webp" alt="长者参与社区与居家产品试用" width="1536" height="1024" loading="lazy" /><figcaption>社区 / 居家 · 日常任务试用</figcaption></figure></div>
+              <div className="trial-gallery reveal"><figure className="trial-main"><img src="./field-trial-a-restored.jpg" alt="团队在真实场景中开展产品试用" width="973" height="1616" loading="lazy" /><figcaption>专科机构 · 产品体验与结构反馈</figcaption></figure><figure><img src="./field-trial-b-restored.jpg" alt="长者参与社区与居家产品试用" width="1454" height="1082" loading="lazy" /><figcaption>社区 / 居家 · 日常任务试用</figcaption></figure></div>
               <div className="trial-story reveal"><span className="micro-label">REAL-WORLD PILOT</span><h3>从专业机构，<br />走进真实生活场景。</h3><div className="trial-impact">{trialImpact.map((item) => <article key={item.label}><small>{item.scope}</small><strong>{item.value}</strong><span>{item.label}</span></article>)}</div><p>两轮真实场景试点覆盖北京帕友关爱中心与社区家庭，围绕自主进食、操作体验与家庭照护形成连续反馈。</p></div>
             </div>
             <div className="shell feedback-loop reveal"><header><span>USER VOICE → PRODUCT RESPONSE</span><h3>真实反馈，持续塑造更自然的产品体验。</h3></header><div>{trialFeedback.map(([feedback, action], index) => <article key={feedback}><span>0{index + 1}</span><div><small>用户声音</small><strong>“{feedback}”</strong></div><ArrowRight /><div><small>产品回应</small><strong>{action}</strong></div></article>)}</div></div>
           </div>
-          <div className="shell evidence-docs reveal"><header><span className="micro-label">TECHNICAL DOCUMENTATION</span><h3>查新与检测资料，<br />让技术成果有据可查。</h3></header><article><img src="./source/novelty-search-report-cover.webp" alt="科技查新报告封面" loading="lazy" /><div><FileCheck2 /><span>科技查新报告</span><strong>技术查新资料</strong></div></article><article><img src="./source/commissioned-test-report-cover.webp" alt="委托检测报告封面" loading="lazy" /><div><BadgeCheck /><span>委托检测报告</span><strong>产品检测资料</strong></div></article></div>
+          <div className="shell evidence-docs reveal"><header><span className="micro-label">TECHNICAL DOCUMENTATION</span><h3>查新与检测资料，<br />让技术成果有据可查。</h3></header><article><img src="./source/novelty-search-report-cover.jpg" alt="科技查新报告封面" width="1356" height="1914" loading="lazy" /><div><FileCheck2 /><span>科技查新报告</span><strong>技术查新资料</strong></div></article><article><img src="./source/commissioned-test-report-cover.jpg" alt="委托检测报告封面" width="1266" height="1791" loading="lazy" /><div><BadgeCheck /><span>委托检测报告</span><strong>产品检测资料</strong></div></article></div>
         </section>
 
         <section className="chapter chapter-service" id="service">
           <div className="shell">
-            <ChapterHeader number="05" eyebrow="SERVICE & INDUSTRIALIZATION" title={<>产品版本与服务体系规划，<br />连接长期产品价值。</>} copy="围绕不同预算与机构需求规划三层产品版本；帕益助平台规划长期趋势、亲友守护和远程服务，服务体系覆盖咨询、试用、交付、随访与维护。" />
+            <ChapterHeader number="05" eyebrow="SERVICE & INDUSTRIALIZATION" title={<><span className="title-line">产品版本与服务体系规划，</span><span className="title-line">连接长期产品价值。</span></>} copy="围绕不同预算与机构需求规划三层产品版本；帕益助平台规划长期趋势、亲友守护和远程服务，服务体系覆盖咨询、试用、交付、随访与维护。" />
             <div className="version-grid reveal">{tiers.map((tier, index) => <article key={tier.name} className={index === 1 ? "featured" : ""}><header><span>0{index + 1} / {tier.type}</span><small>{tier.badge} · 版本规划</small></header><h3>{tier.name}</h3><strong>{tier.price}</strong><p>{tier.copy}</p><ul>{tier.specs.map((spec) => <li key={spec}><Check />{spec}</li>)}</ul></article>)}</div>
             <div className="subsection-head reveal"><span>05.2 / PAIYIZHU PLATFORM</span><h3>把一次使用，连接成长周期服务。</h3><p>帕益助将设备记录转化为健康趋势、智能提醒、亲友守护与远程服务入口。</p></div>
             <HealthDashboard />
@@ -739,7 +787,7 @@ export default function Home() {
 
           <div className="scale-section"><SignalCanvas warm /><div className="shell scale-content"><div className="subsection-head light reveal"><span>05.4 / MARKET & GROWTH</span><h3>普惠产品背后，<br />是一条可持续的增长路径。</h3><p>从专业信任、规模触达到区域合作，连接长期产品价值。</p></div><div className="market-stats reveal">{marketStats.map(([code, value, unit, copy]) => <article key={code}><span>{code}</span><strong>{value}<small>{unit}</small></strong><p>{copy}</p></article>)}</div><div className="growth-path reveal"><article><span>01</span><Building2 /><strong>医院 · 康复机构</strong><p>试用、培训与专业反馈</p></article><ArrowRight /><article><span>02</span><Target /><strong>线上电商 · 养老院集采</strong><p>健康平台与机构批量采购</p></article><ArrowRight /><article><span>03</span><Cloud /><strong>海外代理与本地化</strong><p>区域认证与分销网络</p></article></div></div></div>
 
-          <div className="shell ip-layout"><div className="ip-intro reveal"><span className="micro-label">INTELLECTUAL PROPERTY</span><h3>从数据基石，<br />到云端大脑。</h3><p>6 项已获授权软件著作权与多项专利申请、核心专利储备，共同覆盖数据处理、AI 决策、云边协同、可视化与模块化产品方向。</p><div><strong>6</strong><span>项已获授权软件著作权</span><strong>多项</strong><span>专利申请与核心储备</span></div></div><div className="ip-list reveal">{ipItems.map(([index, title, code]) => <article key={index}><span>{index}</span><div><strong>{title}</strong><small>{code}</small></div><FileCheck2 /></article>)}</div></div>
+          <div className="shell ip-layout"><div className="ip-intro reveal"><span className="micro-label">INTELLECTUAL PROPERTY</span><h3>从数据基石，<br />到云端大脑。</h3><p>6 项已获授权软件著作权与多项专利申请、核心专利储备，共同覆盖数据处理、AI 决策、云边协同、可视化与模块化产品方向。</p><div className="ip-summary"><article><strong>6</strong><span>项已获授权软件著作权</span></article><article><strong>多项</strong><span>专利申请与核心储备</span></article></div></div><div className="ip-list reveal">{ipItems.map(([index, title, code]) => <article key={index}><span>{index}</span><div><strong>{title}</strong><small>{code}</small></div><FileCheck2 /></article>)}</div></div>
         </section>
 
         <section className="chapter chapter-about" id="about">
@@ -756,7 +804,7 @@ export default function Home() {
         <section className="cooperate-section" id="cooperate"><SignalCanvas /><div className="shell cooperate-layout reveal"><div><span>BUILD THE FUTURE OF CARE</span><h2>让“有帕不怕”，<br />成为更多家庭的日常。</h2></div><div><p>欢迎医疗机构、康复团队、社区养老服务方、产业伙伴与公益组织，共同拓展产品应用、专业服务与普惠照护生态。</p><a className="button button-light" href="#resources">查看产品资料 <ArrowDown /></a></div></div><div className="shell resource-grid reveal" id="resources"><article><div className="qr-window qr-video"><img src="./project-resources.png" alt="产品实际应用视频二维码" /></div><span>01</span><strong>产品实际应用视频</strong><small>微信扫码，或<a href="http://liuwamiaoji.com/w/10JoFw" target="_blank" rel="noreferrer">直接打开</a></small></article><article><div className="qr-window qr-platform"><img src="./project-resources.png" alt="帕不怕平台二维码" /></div><span>02</span><strong>帕不怕平台</strong><small>微信扫码，或<a href="https://pabupa.readdy.co" target="_blank" rel="noreferrer">直接打开</a></small></article><article><div className="qr-window qr-report"><img src="./project-resources.png" alt="产品检测报告二维码" /></div><span>03</span><strong>产品检测报告</strong><small>微信扫码，或<a href="https://m.tuwenfujian.com/w/724144174764531712" target="_blank" rel="noreferrer">直接打开</a></small></article></div></section>
       </main>
 
-      <footer><div className="shell footer-main"><a className="brand footer-brand" href="#top"><span className="brand-symbol"><i /></span><span><strong>帕不怕</strong><small>ParkinFearless</small></span></a><p>北京帕护智能科技有限公司<br />多场景智能生活辅助系统</p><nav aria-label="页脚导航"><a href="#product">产品系统</a><a href="#technology">核心技术</a><a href="#research">验证研究</a><a href="#service">服务体系</a></nav></div><div className="shell footer-bottom"><small>帕不怕定位为生活辅助产品，不替代医疗诊断或治疗。性能数据均对应特定测试条件，市场数据为项目测算。</small><span>© 2026 PARKINFEARLESS</span></div></footer>
+      <footer><div className="shell footer-main"><a className="brand footer-brand" href="#top"><img className="brand-logo" src="./brand-mark.jpeg" alt="" width="158" height="151" /><span><strong>帕不怕</strong><small>ParkinFearless</small></span></a><p>北京帕护智能科技有限公司<br />多场景智能生活辅助系统</p><nav aria-label="页脚导航"><a href="#product">产品系统</a><a href="#technology">核心技术</a><a href="#research">验证研究</a><a href="#service">服务体系</a></nav></div><div className="shell footer-bottom"><small>帕不怕定位为生活辅助产品，不替代医疗诊断或治疗。性能数据均对应特定测试条件，市场数据为项目测算。</small><span>© 2026 PARKINFEARLESS</span></div></footer>
     </>
   );
 }
