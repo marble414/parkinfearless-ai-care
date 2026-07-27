@@ -580,7 +580,7 @@ function HealthDashboard() {
   return (
     <div className="dashboard reveal">
       <aside className="dashboard-sidebar">
-        <div className="dashboard-brand"><img className="brand-logo" src="./brand-mark.jpeg" alt="" width="158" height="151" /><strong>帕益助</strong></div>
+        <div className="dashboard-brand"><img className="brand-logo" src="./brand-mark-v2.jpg" alt="" width="158" height="151" /><strong>帕益助</strong></div>
         <div className="dashboard-feature-list" role="tablist" aria-label="平台规划功能">
           {dashboardModes.map((item, index) => {
             const Icon = item.icon;
@@ -681,7 +681,7 @@ export default function Home() {
       <div className="scroll-progress" ref={progressRef} />
       <header className="site-header" id="top">
         <div className="shell header-inner">
-          <a className="brand" href="#top" aria-label="帕不怕首页"><img className="brand-logo" src="./brand-mark.jpeg" alt="" width="158" height="151" /><span><strong>帕不怕</strong><small>ParkinFearless</small></span></a>
+          <a className="brand" href="#top" aria-label="帕不怕首页"><img className="brand-logo" src="./brand-mark-v2.jpg" alt="" width="158" height="151" /><span><strong>帕不怕</strong><small>ParkinFearless</small></span></a>
           <nav className={cx("main-nav", menuOpen && "open")} id="main-navigation" aria-label="主导航">
             <a ref={firstNavLinkRef} href="#need" onClick={closeMenu}>需求价值</a><a href="#product" onClick={closeMenu}>产品系统</a><a href="#technology" onClick={closeMenu}>核心技术</a><a href="#research" onClick={closeMenu}>验证研究</a><a href="#service" onClick={closeMenu}>服务与产业化</a><a href="#about" onClick={closeMenu}>品牌合作</a>
           </nav>
@@ -804,7 +804,7 @@ export default function Home() {
         <section className="cooperate-section" id="cooperate"><SignalCanvas /><div className="shell cooperate-layout reveal"><div><span>BUILD THE FUTURE OF CARE</span><h2>让“有帕不怕”，<br />成为更多家庭的日常。</h2></div><div><p>欢迎医疗机构、康复团队、社区养老服务方、产业伙伴与公益组织，共同拓展产品应用、专业服务与普惠照护生态。</p><a className="button button-light" href="#resources">查看产品资料 <ArrowDown /></a></div></div><div className="shell resource-grid reveal" id="resources"><article><div className="qr-window qr-video"><img src="./project-resources.png" alt="产品实际应用视频二维码" /></div><span>01</span><strong>产品实际应用视频</strong><small>微信扫码，或<a href="http://liuwamiaoji.com/w/10JoFw" target="_blank" rel="noreferrer">直接打开</a></small></article><article><div className="qr-window qr-platform"><img src="./project-resources.png" alt="帕不怕平台二维码" /></div><span>02</span><strong>帕不怕平台</strong><small>微信扫码，或<a href="https://pabupa.readdy.co" target="_blank" rel="noreferrer">直接打开</a></small></article><article><div className="qr-window qr-report"><img src="./project-resources.png" alt="产品检测报告二维码" /></div><span>03</span><strong>产品检测报告</strong><small>微信扫码，或<a href="https://m.tuwenfujian.com/w/724144174764531712" target="_blank" rel="noreferrer">直接打开</a></small></article></div></section>
       </main>
 
-      <footer><div className="shell footer-main"><a className="brand footer-brand" href="#top"><img className="brand-logo" src="./brand-mark.jpeg" alt="" width="158" height="151" /><span><strong>帕不怕</strong><small>ParkinFearless</small></span></a><p>北京帕护智能科技有限公司<br />多场景智能生活辅助系统</p><nav aria-label="页脚导航"><a href="#product">产品系统</a><a href="#technology">核心技术</a><a href="#research">验证研究</a><a href="#service">服务体系</a></nav></div><div className="shell footer-bottom"><small>帕不怕定位为生活辅助产品，不替代医疗诊断或治疗。性能数据均对应特定测试条件，市场数据为项目测算。</small><span>© 2026 PARKINFEARLESS</span></div></footer>
+      <footer><div className="shell footer-main"><a className="brand footer-brand" href="#top"><img className="brand-logo" src="./brand-mark-v2.jpg" alt="" width="158" height="151" /><span><strong>帕不怕</strong><small>ParkinFearless</small></span></a><p>北京帕护智能科技有限公司<br />多场景智能生活辅助系统</p><nav aria-label="页脚导航"><a href="#product">产品系统</a><a href="#technology">核心技术</a><a href="#research">验证研究</a><a href="#service">服务体系</a></nav></div><div className="shell footer-bottom"><small>帕不怕定位为生活辅助产品，不替代医疗诊断或治疗。性能数据均对应特定测试条件，市场数据为项目测算。</small><span>© 2026 PARKINFEARLESS</span></div></footer>
     </>
   );
 }

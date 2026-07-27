@@ -6,8 +6,8 @@ export const metadata: Metadata = {
   title: "帕不怕 ParkinFearless｜多场景智能生活辅助系统",
   description: "以智能感知手柄为核心，融合多模态生物传感、边缘人工智能与模块化执行平台，面向帕金森患者的日常生活辅助系统。",
   icons: {
-    icon: "https://marble414.github.io/parkinfearless-ai-care/brand-mark.jpeg",
-    shortcut: "https://marble414.github.io/parkinfearless-ai-care/brand-mark.jpeg",
+    icon: "https://marble414.github.io/parkinfearless-ai-care/brand-mark-v2.jpg",
+    shortcut: "https://marble414.github.io/parkinfearless-ai-care/brand-mark-v2.jpg",
   },
   openGraph: {
     title: "帕不怕｜在震颤之前，把生活稳稳接住。",
