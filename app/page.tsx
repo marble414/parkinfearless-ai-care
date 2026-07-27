@@ -12,6 +12,7 @@ import {
   BrainCircuit,
   Building2,
   Check,
+  ChevronDown,
   ChevronLeft,
   ChevronRight,
   CircleGauge,
@@ -60,12 +61,14 @@ const proofStats = [
   { value: "18", label: "份合作意向", note: "14 份正式文件 · 4 份推进中" },
 ];
 
-type FontSizeMode = "standard" | "large" | "extra-large";
+type FontSizeMode = "standard" | "comfortable" | "large" | "extra-large" | "maximum";
 
-const fontSizeOptions: Array<{ value: FontSizeMode; label: string; shortLabel: string; scale: number }> = [
-  { value: "standard", label: "标准字号", shortLabel: "A", scale: 1 },
-  { value: "large", label: "大号字体", shortLabel: "A+", scale: 1.1 },
-  { value: "extra-large", label: "特大号字体", shortLabel: "A++", scale: 1.2 },
+const fontSizeOptions: Array<{ value: FontSizeMode; label: string; percent: string; scale: number; note: string }> = [
+  { value: "standard", label: "标准", percent: "100%", scale: 1, note: "网站原始比例" },
+  { value: "comfortable", label: "舒适", percent: "110%", scale: 1.1, note: "适合日常阅读" },
+  { value: "large", label: "大号", percent: "120%", scale: 1.2, note: "正文更清晰" },
+  { value: "extra-large", label: "特大", percent: "135%", scale: 1.35, note: "低视力友好" },
+  { value: "maximum", label: "超大", percent: "150%", scale: 1.5, note: "最大阅读辅助" },
 ];
 
 const needs = [
@@ -645,15 +648,25 @@ function Faq() {
 
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [fontSizeMode, setFontSizeMode] = useState<FontSizeMode>("large");
+  const [fontSizeMode, setFontSizeMode] = useState<FontSizeMode>("comfortable");
   const [fontSizeReady, setFontSizeReady] = useState(false);
+  const [fontMenuOpen, setFontMenuOpen] = useState(false);
   const progressRef = useRef<HTMLDivElement | null>(null);
   const menuButtonRef = useRef<HTMLButtonElement | null>(null);
   const firstNavLinkRef = useRef<HTMLAnchorElement | null>(null);
+  const fontControlRef = useRef<HTMLDivElement | null>(null);
+  const fontTriggerRef = useRef<HTMLButtonElement | null>(null);
 
   useEffect(() => {
-    const savedMode = window.localStorage.getItem("parkinfearless-font-size");
-    if (fontSizeOptions.some((option) => option.value === savedMode)) setFontSizeMode(savedMode as FontSizeMode);
+    const savedMode = window.localStorage.getItem("parkinfearless-font-size-v2");
+    if (fontSizeOptions.some((option) => option.value === savedMode)) {
+      setFontSizeMode(savedMode as FontSizeMode);
+    } else {
+      const legacyMode = window.localStorage.getItem("parkinfearless-font-size");
+      if (legacyMode === "standard") setFontSizeMode("standard");
+      if (legacyMode === "large") setFontSizeMode("comfortable");
+      if (legacyMode === "extra-large") setFontSizeMode("large");
+    }
     setFontSizeReady(true);
   }, []);
 
@@ -693,7 +706,7 @@ export default function Home() {
     };
 
     document.documentElement.dataset.fontSize = fontSizeMode;
-    window.localStorage.setItem("parkinfearless-font-size", fontSizeMode);
+    window.localStorage.setItem("parkinfearless-font-size-v2", fontSizeMode);
     applyFontScale();
     window.addEventListener("resize", handleResize, { passive: true });
     return () => {
@@ -702,6 +715,24 @@ export default function Home() {
       document.querySelectorAll<HTMLElement>(selector).forEach((element) => element.style.removeProperty("font-size"));
     };
   }, [fontSizeMode, fontSizeReady]);
+
+  useEffect(() => {
+    if (!fontMenuOpen) return;
+    const handlePointerDown = (event: PointerEvent) => {
+      if (!fontControlRef.current?.contains(event.target as Node)) setFontMenuOpen(false);
+    };
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key !== "Escape") return;
+      setFontMenuOpen(false);
+      fontTriggerRef.current?.focus();
+    };
+    document.addEventListener("pointerdown", handlePointerDown);
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("pointerdown", handlePointerDown);
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [fontMenuOpen]);
 
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
@@ -737,6 +768,7 @@ export default function Home() {
   }, [menuOpen]);
 
   const closeMenu = () => setMenuOpen(false);
+  const activeFontOption = fontSizeOptions.find((option) => option.value === fontSizeMode) ?? fontSizeOptions[1];
   return (
     <>
       <a className="skip-link" href="#content">跳到主要内容</a>
@@ -747,21 +779,42 @@ export default function Home() {
           <nav className={cx("main-nav", menuOpen && "open")} id="main-navigation" aria-label="主导航">
             <a ref={firstNavLinkRef} href="#need" onClick={closeMenu}>需求价值</a><a href="#product" onClick={closeMenu}>产品系统</a><a href="#technology" onClick={closeMenu}>核心技术</a><a href="#research" onClick={closeMenu}>验证研究</a><a href="#service" onClick={closeMenu}>服务与产业化</a><a href="#about" onClick={closeMenu}>品牌合作</a>
           </nav>
-          <div className="font-size-control" role="group" aria-label="调整网页字号">
-            <span>字号</span>
-            {fontSizeOptions.map((option) => (
-              <button
-                key={option.value}
-                type="button"
-                className={fontSizeMode === option.value ? "active" : ""}
-                aria-label={option.label}
-                aria-pressed={fontSizeMode === option.value}
-                title={option.label}
-                onClick={() => setFontSizeMode(option.value)}
-              >
-                {option.shortLabel}
-              </button>
-            ))}
+          <div ref={fontControlRef} className={cx("font-size-control", fontMenuOpen && "open")}>
+            <button
+              ref={fontTriggerRef}
+              className="font-size-trigger"
+              type="button"
+              aria-label={`调整网页字号，当前${activeFontOption.label}`}
+              aria-expanded={fontMenuOpen}
+              aria-controls="font-size-panel"
+              onClick={() => setFontMenuOpen((open) => !open)}
+            >
+              <span aria-hidden="true">Aa</span>
+              <span>字号</span>
+              <strong>{activeFontOption.label}</strong>
+              <ChevronDown aria-hidden="true" />
+            </button>
+            <div className="font-size-panel" id="font-size-panel" role="radiogroup" aria-label="选择阅读字号" hidden={!fontMenuOpen}>
+              <header><strong>阅读字号</strong><small>当前 {activeFontOption.label} · {activeFontOption.percent}</small></header>
+              {fontSizeOptions.map((option, index) => (
+                <button
+                  key={option.value}
+                  type="button"
+                  role="radio"
+                  aria-checked={fontSizeMode === option.value}
+                  className={fontSizeMode === option.value ? "active" : ""}
+                  onClick={() => {
+                    setFontSizeMode(option.value);
+                    setFontMenuOpen(false);
+                    fontTriggerRef.current?.focus();
+                  }}
+                >
+                  <span className={`font-option-sample sample-${index + 1}`} aria-hidden="true">文</span>
+                  <span><strong>{option.label}</strong><small>{option.percent} · {option.note}</small></span>
+                  <Check aria-hidden="true" />
+                </button>
+              ))}
+            </div>
           </div>
           <a className="header-cta" href="#cooperate">合作咨询 <ArrowUpRight size={15} /></a>
           <button ref={menuButtonRef} className="menu-button" aria-label={menuOpen ? "关闭导航" : "打开导航"} aria-controls="main-navigation" aria-expanded={menuOpen} onClick={() => setMenuOpen(!menuOpen)}>{menuOpen ? <X /> : <Menu />}</button>
