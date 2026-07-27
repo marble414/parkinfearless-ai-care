@@ -63,12 +63,12 @@ const proofStats = [
 
 type FontSizeMode = "standard" | "comfortable" | "large" | "extra-large" | "maximum";
 
-const fontSizeOptions: Array<{ value: FontSizeMode; label: string; percent: string; scale: number; note: string }> = [
-  { value: "standard", label: "标准", percent: "100%", scale: 1, note: "网站原始比例" },
-  { value: "comfortable", label: "舒适", percent: "110%", scale: 1.1, note: "适合日常阅读" },
-  { value: "large", label: "大号", percent: "120%", scale: 1.2, note: "正文更清晰" },
-  { value: "extra-large", label: "特大", percent: "135%", scale: 1.35, note: "低视力友好" },
-  { value: "maximum", label: "超大", percent: "150%", scale: 1.5, note: "最大阅读辅助" },
+const fontSizeOptions: Array<{ value: FontSizeMode; label: string; percent: string; scale: number }> = [
+  { value: "standard", label: "标准", percent: "100%", scale: 1 },
+  { value: "comfortable", label: "舒适", percent: "110%", scale: 1.1 },
+  { value: "large", label: "大号", percent: "120%", scale: 1.2 },
+  { value: "extra-large", label: "特大", percent: "130%", scale: 1.3 },
+  { value: "maximum", label: "超大", percent: "140%", scale: 1.4 },
 ];
 
 const needs = [
@@ -656,6 +656,7 @@ export default function Home() {
   const firstNavLinkRef = useRef<HTMLAnchorElement | null>(null);
   const fontControlRef = useRef<HTMLDivElement | null>(null);
   const fontTriggerRef = useRef<HTMLButtonElement | null>(null);
+  const fontCloseTimerRef = useRef<number | null>(null);
 
   useEffect(() => {
     const savedMode = window.localStorage.getItem("parkinfearless-font-size-v2");
@@ -673,30 +674,21 @@ export default function Home() {
   useEffect(() => {
     if (!fontSizeReady) return;
     const scale = fontSizeOptions.find((option) => option.value === fontSizeMode)?.scale ?? 1;
-    const selector = [
-      ".main-nav a",
-      ".header-cta",
-      "main p",
-      "main li",
-      "main dd",
-      "main dt",
-      "main small",
-      "main figcaption",
-      "main button",
-      "main .network-band > span",
-      "footer p",
-      "footer a",
-      "footer small",
-      "footer span",
-    ].join(",");
     let resizeFrame = 0;
 
+    const getScalableElements = () => Array.from(
+      document.querySelectorAll<HTMLElement | SVGElement>("main *, footer *, .main-nav a, .header-cta"),
+    ).filter((element) => Array.from(element.childNodes).some(
+      (node) => node.nodeType === Node.TEXT_NODE && Boolean(node.textContent?.trim()),
+    ));
+
     const applyFontScale = () => {
-      const elements = Array.from(document.querySelectorAll<HTMLElement>(selector));
+      const elements = getScalableElements();
       elements.forEach((element) => element.style.removeProperty("font-size"));
       if (scale === 1) return;
-      elements.forEach((element) => {
-        const baseSize = Number.parseFloat(window.getComputedStyle(element).fontSize);
+      const baseSizes = elements.map((element) => Number.parseFloat(window.getComputedStyle(element).fontSize));
+      elements.forEach((element, index) => {
+        const baseSize = baseSizes[index];
         if (Number.isFinite(baseSize)) element.style.setProperty("font-size", `${(baseSize * scale).toFixed(2)}px`, "important");
       });
     };
@@ -712,9 +704,13 @@ export default function Home() {
     return () => {
       window.cancelAnimationFrame(resizeFrame);
       window.removeEventListener("resize", handleResize);
-      document.querySelectorAll<HTMLElement>(selector).forEach((element) => element.style.removeProperty("font-size"));
+      getScalableElements().forEach((element) => element.style.removeProperty("font-size"));
     };
   }, [fontSizeMode, fontSizeReady]);
+
+  useEffect(() => () => {
+    if (fontCloseTimerRef.current) window.clearTimeout(fontCloseTimerRef.current);
+  }, []);
 
   useEffect(() => {
     if (!fontMenuOpen) return;
@@ -787,7 +783,10 @@ export default function Home() {
               aria-label={`调整网页字号，当前${activeFontOption.label}`}
               aria-expanded={fontMenuOpen}
               aria-controls="font-size-panel"
-              onClick={() => setFontMenuOpen((open) => !open)}
+              onClick={() => {
+                if (fontCloseTimerRef.current) window.clearTimeout(fontCloseTimerRef.current);
+                setFontMenuOpen((open) => !open);
+              }}
             >
               <span aria-hidden="true">Aa</span>
               <span>字号</span>
@@ -795,7 +794,7 @@ export default function Home() {
               <ChevronDown aria-hidden="true" />
             </button>
             <div className="font-size-panel" id="font-size-panel" role="radiogroup" aria-label="选择阅读字号" hidden={!fontMenuOpen}>
-              <header><strong>阅读字号</strong><small>当前 {activeFontOption.label} · {activeFontOption.percent}</small></header>
+              <header><strong>选择字号</strong></header>
               {fontSizeOptions.map((option, index) => (
                 <button
                   key={option.value}
@@ -805,12 +804,15 @@ export default function Home() {
                   className={fontSizeMode === option.value ? "active" : ""}
                   onClick={() => {
                     setFontSizeMode(option.value);
-                    setFontMenuOpen(false);
-                    fontTriggerRef.current?.focus();
+                    if (fontCloseTimerRef.current) window.clearTimeout(fontCloseTimerRef.current);
+                    fontCloseTimerRef.current = window.setTimeout(() => {
+                      setFontMenuOpen(false);
+                      fontTriggerRef.current?.focus();
+                    }, 220);
                   }}
                 >
                   <span className={`font-option-sample sample-${index + 1}`} aria-hidden="true">文</span>
-                  <span><strong>{option.label}</strong><small>{option.percent} · {option.note}</small></span>
+                  <span><strong>{option.label}</strong><small>{option.percent}</small></span>
                   <Check aria-hidden="true" />
                 </button>
               ))}

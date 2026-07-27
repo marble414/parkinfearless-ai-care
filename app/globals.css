@@ -70,31 +70,38 @@ p, h1, h2, h3, h4, blockquote, figure { margin-top: 0; }
 .font-size-trigger { min-width: 136px; height: 42px; padding: 0 12px; display: inline-flex; align-items: center; justify-content: center; gap: 7px; border: 1px solid rgba(255,255,255,.24); border-radius: 999px; color: white; background: rgba(255,255,255,.07); cursor: pointer; transition: background 180ms, border-color 180ms; }
 .font-size-trigger > span:first-child { font-family: Georgia,serif; font-size: 15px; letter-spacing: -.08em; }
 .font-size-trigger > span:nth-child(2) { color: rgba(255,255,255,.62); font-size: 11px; }
-.font-size-trigger strong { font-size: 12px; font-weight: 650; }
+.font-size-trigger strong { min-width: 28px; font-size: 12px; font-weight: 650; text-align: left; transition: color 180ms, transform 180ms; }
 .font-size-trigger svg { width: 15px; transition: transform 180ms; }
 .font-size-control.open .font-size-trigger { background: rgba(255,255,255,.13); border-color: rgba(255,255,255,.48); }
+.font-size-control.open .font-size-trigger strong { color: var(--orange-soft); transform: translateY(-1px); }
 .font-size-control.open .font-size-trigger svg { transform: rotate(180deg); }
-.font-size-panel { position: absolute; z-index: 20; top: calc(100% + 12px); right: 0; width: 330px; padding: 10px; overflow: hidden; border: 1px solid rgba(255,255,255,.18); border-radius: 20px; color: var(--ink); background: rgba(255,253,248,.98); box-shadow: 0 24px 70px rgba(0,0,0,.3); backdrop-filter: blur(18px); }
+.font-size-panel { position: absolute; z-index: 20; top: calc(100% + 12px); right: 0; width: 296px; padding: 8px; overflow: hidden; border: 1px solid rgba(255,255,255,.18); border-radius: 20px; color: var(--ink); background: rgba(255,253,248,.98); box-shadow: 0 24px 70px rgba(0,0,0,.3); transform-origin: 82% top; animation: fontPanelIn 240ms cubic-bezier(.2,.82,.2,1) both; backdrop-filter: blur(18px); }
 .font-size-panel[hidden] { display: none; }
-.font-size-panel > header { min-height: 62px; padding: 8px 10px 10px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--line); }
-.font-size-panel > header strong { font-size: 16px; }
-.font-size-panel > header small { color: var(--muted); font-size: 12px; }
-.font-size-panel > button { width: 100%; min-height: 62px; padding: 8px 10px; display: grid; grid-template-columns: 42px 1fr 20px; gap: 11px; align-items: center; border-radius: 13px; color: var(--ink); text-align: left; background: transparent; cursor: pointer; transition: background 160ms, transform 160ms; }
-.font-size-panel > button:hover { background: var(--paper-2); }
+.font-size-panel > header { min-height: 48px; padding: 6px 11px 8px; display: flex; align-items: center; border-bottom: 1px solid var(--line); }
+.font-size-panel > header strong { font-size: 15px; }
+.font-size-panel > button { width: 100%; min-height: 58px; padding: 7px 10px; display: grid; grid-template-columns: 42px 1fr 20px; gap: 10px; align-items: center; border-radius: 13px; color: var(--ink); text-align: left; background: transparent; cursor: pointer; opacity: 0; transform: translateY(-7px); animation: fontOptionIn 260ms cubic-bezier(.2,.82,.2,1) forwards; transition: background 180ms, box-shadow 180ms, transform 180ms; }
+.font-size-panel > button:nth-of-type(1) { animation-delay: 25ms; }
+.font-size-panel > button:nth-of-type(2) { animation-delay: 50ms; }
+.font-size-panel > button:nth-of-type(3) { animation-delay: 75ms; }
+.font-size-panel > button:nth-of-type(4) { animation-delay: 100ms; }
+.font-size-panel > button:nth-of-type(5) { animation-delay: 125ms; }
+.font-size-panel > button:hover { background: var(--paper-2); transform: translateX(2px); }
 .font-size-panel > button:active { transform: scale(.985); }
-.font-option-sample { width: 40px; height: 40px; display: grid; place-items: center; border: 1px solid var(--line); border-radius: 11px; color: var(--muted); background: white; font-family: "Songti SC",serif; line-height: 1; }
+.font-option-sample { width: 40px; height: 40px; display: grid; place-items: center; border: 1px solid var(--line); border-radius: 11px; color: var(--muted); background: white; font-family: "Songti SC",serif; line-height: 1; transition: color 180ms, background 180ms, border-color 180ms, transform 220ms cubic-bezier(.2,.82,.2,1); }
 .font-option-sample.sample-1 { font-size: 16px; }
 .font-option-sample.sample-2 { font-size: 18px; }
 .font-option-sample.sample-3 { font-size: 20px; }
 .font-option-sample.sample-4 { font-size: 22px; }
 .font-option-sample.sample-5 { font-size: 24px; }
-.font-size-panel > button > span:nth-child(2) { display: flex; flex-direction: column; }
+.font-size-panel > button > span:nth-child(2) { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
 .font-size-panel > button > span:nth-child(2) strong { font-size: 14px; }
-.font-size-panel > button > span:nth-child(2) small { margin-top: 2px; color: var(--muted); font-size: 11px; }
-.font-size-panel > button > svg { width: 18px; color: transparent; }
-.font-size-panel > button.active { background: #f7e9dc; }
-.font-size-panel > button.active .font-option-sample { color: white; border-color: var(--orange); background: var(--orange); }
-.font-size-panel > button.active > svg { color: var(--orange); }
+.font-size-panel > button > span:nth-child(2) small { color: var(--muted); font-size: 11px; }
+.font-size-panel > button > svg { width: 18px; color: transparent; transform: scale(.4) rotate(-16deg); transition: color 180ms, transform 220ms cubic-bezier(.2,.82,.2,1); }
+.font-size-panel > button.active { background: linear-gradient(90deg,#f8e8da,#fff8f1); box-shadow: inset 0 0 0 1px rgba(184,61,16,.1); }
+.font-size-panel > button.active .font-option-sample { color: white; border-color: var(--orange); background: var(--orange); transform: scale(1.08) rotate(-4deg); box-shadow: 0 8px 18px rgba(184,61,16,.2); }
+.font-size-panel > button.active > svg { color: var(--orange); transform: none; }
+@keyframes fontPanelIn { from { opacity: 0; transform: translateY(-10px) scale(.94); filter: blur(6px); } to { opacity: 1; transform: none; filter: none; } }
+@keyframes fontOptionIn { to { opacity: 1; transform: none; } }
 .header-cta { display: inline-flex; align-items: center; gap: 12px; min-height: 40px; padding: 0 16px; border: 1px solid rgba(255,255,255,.28); border-radius: 999px; font-size: 13px; transition: background 180ms, border-color 180ms, transform 180ms; }
 .header-cta:hover { transform: translateY(-1px); background: rgba(255,255,255,.1); border-color: rgba(255,255,255,.55); }
 .menu-button { display: none; width: 42px; height: 42px; border-radius: 50%; color: white; background: rgba(255,255,255,.08); place-items: center; }
